@@ -11,10 +11,15 @@ from django.http import HttpRequest, HttpResponse, HttpResponseNotFound, HttpRes
 from challenges.models import Book
 from challenges.views.level_1.b_book_details import get_book
 
+from django.core.exceptions import ObjectDoesNotExist
+
 
 def delete_book(book_id: int) -> Book | None:
-    # код писать тут
-    pass
+    try:
+        book = get_book(book_id)
+    except ObjectDoesNotExist:
+        return None
+    return book.delete()
 
 
 def delete_book_handler(request: HttpRequest, book_id: int) -> HttpResponse:
