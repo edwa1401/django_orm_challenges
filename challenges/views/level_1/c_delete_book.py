@@ -6,20 +6,21 @@
 После удаления книги попробуйте получить описание удалённой книги с помощью ручки из предыдущего задания
 и убедитесь, что книга удалена.
 """
-from django.http import HttpRequest, HttpResponse, HttpResponseNotFound, HttpResponseNotAllowed
+from django.http import (
+    HttpRequest,
+    HttpResponse,
+    HttpResponseNotAllowed,
+    HttpResponseNotFound,
+)
 
 from challenges.models import Book
 from challenges.views.level_1.b_book_details import get_book
 
-from django.core.exceptions import ObjectDoesNotExist
-
 
 def delete_book(book_id: int) -> Book | None:
-    try:
-        book = get_book(book_id)
-    except ObjectDoesNotExist:
-        return None
-    return book.delete()
+    book = get_book(book_id)
+    if book:
+        return book.delete()
 
 
 def delete_book_handler(request: HttpRequest, book_id: int) -> HttpResponse:
