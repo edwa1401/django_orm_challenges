@@ -10,14 +10,10 @@
 from django.http import HttpRequest, HttpResponse, HttpResponseBadRequest, JsonResponse
 
 from challenges.models import Book
-from django.core.exceptions import ObjectDoesNotExist
 
 
 def update_book(book_id: int, new_title: str, new_author_full_name: str, new_isbn: str) -> Book | None:
-    try:
-        book = Book.objects.get(id=book_id)
-    except ObjectDoesNotExist:
-        return None
+    book = Book.objects.filter(id=book_id).first()
     
     if book:
         book.title=new_title

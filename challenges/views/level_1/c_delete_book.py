@@ -17,10 +17,8 @@ from challenges.models import Book
 from challenges.views.level_1.b_book_details import get_book
 
 
-def delete_book(book_id: int) -> Book | None:
-    book = get_book(book_id)
-    if book:
-        return book.delete()
+def delete_book(book_id: int) -> tuple[int, dict[str, int]]:
+    return Book.objects.filter(id=book_id).delete()
 
 
 def delete_book_handler(request: HttpRequest, book_id: int) -> HttpResponse:
