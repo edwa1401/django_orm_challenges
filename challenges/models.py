@@ -75,6 +75,7 @@ class Post(models.Model):
         CULTURE = 'CL', _('Culture')
         SPORT = 'SP', _('Sport')
         POLITIC = 'PL', _('Politic')
+        __empty__ = ('(Unknown)')
     
     title = models.CharField(max_length=20)
     text = models.CharField(max_length=1000)
@@ -86,7 +87,7 @@ class Post(models.Model):
         )
     created_at = models.DateTimeField(auto_now_add=True)
     published_at = models.DateTimeField(null=True)
-    category = models.CharField(choices=Category.choices, max_length=100)
+    category = models.CharField(choices=Category.choices, max_length=100, )
 
     def __str__(self) -> str():
         return f'{self.title}, published at {self.published_at}'
