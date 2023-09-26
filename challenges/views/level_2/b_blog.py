@@ -9,14 +9,18 @@
 - реализовать у модели метод to_json, который будет преобразовывать объект книги в json-сериализуемый словарь
 - по очереди реализовать каждую из вьюх в этом файле, проверяя правильность их работу в браузере
 """
-from django.http import HttpRequest, HttpResponse
+from django.http import HttpRequest, HttpResponse, JsonResponse
+from challenges.models import Post
 
 
 def last_posts_list_view(request: HttpRequest) -> HttpResponse:
     """
     В этой вьюхе вам нужно вернуть 3 последних опубликованных поста.
     """
-    pass
+    last_posts = Post.objects.order_by('-created_at')[:3]
+    serialized_posts = [post.to_json() for post in last_posts]
+    return JsonResponse(serialized_posts, safe=False) 
+    
 
 
 def posts_search_view(request: HttpRequest) -> HttpResponse:
