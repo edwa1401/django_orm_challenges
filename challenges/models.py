@@ -2,7 +2,6 @@ import json
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
-
 class Book(models.Model):
     title = models.CharField(max_length=256)
     author_full_name = models.CharField(max_length=256)
@@ -56,7 +55,7 @@ class Laptop(models.Model):
                 'hdd_capacity': float(self.hdd_capacity),
                 'price': float(self.price),
                 'stock_count': self.stock_count,
-                'created_at': str(self.created_at),
+                'created_at': str(self.tcreated_at),
         }
         )
 
@@ -104,3 +103,5 @@ class Post(models.Model):
                 'category': self.category,
             }
         )
+    
+        
