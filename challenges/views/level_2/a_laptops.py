@@ -11,7 +11,7 @@
 - реализовать у модели метод to_json, который будет преобразовывать объект книги в json-сериализуемый словарь
 - по очереди реализовать каждую из вьюх в этом файле, проверяя правильность их работу в браузере
 """
-from django.http import HttpRequest, HttpResponse, HttpResponseNotFound, JsonResponse, HttpResponseForbidden
+from django.http import HttpRequest, HttpResponse, JsonResponse
 from django.shortcuts import get_object_or_404
 from challenges.models import Laptop
 import decimal
@@ -51,7 +51,7 @@ def laptop_filter_view(request: HttpRequest) -> HttpResponse:
         price__gte=min_price
         ).order_by('price')
     if not targeted_laptops or min_price < 0:
-        return HttpResponseForbidden('No such brand or price is negative')
+        return JsonResponse('No such brand or price is negative', status=403)
     
     serialised_laptops = [laptop.to_json() for laptop in targeted_laptops]
     return JsonResponse(serialised_laptops, safe=False)
@@ -65,5 +65,5 @@ def last_laptop_details_view(request: HttpRequest) -> HttpResponse:
     """
     last_laptop = Laptop.objects.order_by('created_at').last()
     if not last_laptop:
-        return HttpResponseNotFound('no notebooks')
+        return JsonResponse('no notebooks', status=404)
     return JsonResponse(last_laptop.to_json(), safe=False)
