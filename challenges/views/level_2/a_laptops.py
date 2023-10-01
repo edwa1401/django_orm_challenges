@@ -12,9 +12,9 @@
 - по очереди реализовать каждую из вьюх в этом файле, проверяя правильность их работу в браузере
 """
 from django.http import HttpRequest, HttpResponse, JsonResponse
-from django.shortcuts import get_object_or_404
 from challenges.models import Laptop
 import decimal
+from django.core.exceptions import ObjectDoesNotExist
 
 
 def laptop_details_view(request: HttpRequest, laptop_id: int) -> HttpResponse:
@@ -23,7 +23,11 @@ def laptop_details_view(request: HttpRequest, laptop_id: int) -> HttpResponse:
     Если такого id нет, вернуть 404.
     """
 
-    laptop = get_object_or_404(Laptop, id=laptop_id)
+    try:
+        laptop = Laptop.objects.get(pk=laptop_id)
+    except ObjectDoesNotExist:
+        return JsonResponse("Laptop with such id doesn't exist", status=404)
+
     return JsonResponse(laptop.to_json(), safe=False)
 
 

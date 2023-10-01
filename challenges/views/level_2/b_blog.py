@@ -14,7 +14,7 @@ from challenges.models import Post
 import datetime
 from typing import Any
 
-def posts_to_json(posts: Post) -> dict[str, Any]:
+def posts_to_json(posts: Post) -> list[dict[str, Any]]:
     return [post.to_json() for post in posts]
 
 def last_posts_list_view(request: HttpRequest) -> HttpResponse:
