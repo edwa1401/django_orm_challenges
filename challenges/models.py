@@ -1,4 +1,3 @@
-import json
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 from typing import Any
@@ -84,7 +83,7 @@ class Post(models.Model):
     published_at = models.DateTimeField(null=True)
     category = models.CharField(choices=Category.choices, max_length=100, )
 
-    def __str__(self) -> str():
+    def __str__(self) -> str:
         return f'{self.title}, published at {self.published_at}'
 
     def to_json(self) -> dict[str, Any]:
